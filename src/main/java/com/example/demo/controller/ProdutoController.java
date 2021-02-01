@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.DTOs.ProdutoRequest;
 import com.example.demo.DTOs.ProdutoResponse;
 import com.example.demo.mappers.ProdutoMapper;
-import com.example.demo.model.Produto;
 import com.example.demo.services.ProdutoService;
 
 
@@ -38,20 +37,26 @@ public class ProdutoController {
         return this.mapper.produtoListToResonseList(this.service.getProdutos()); 
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public int adicionarProduto(@RequestBody ProdutoRequest produtoRequest) throws SQLException{
     	return service.adicionarProduto(mapper.produtoRequestToProduto(produtoRequest));
     }
     
-    @DeleteMapping("/rm/{id}")
+    @DeleteMapping("/{id}")
     public int removerProduto(@PathVariable int id) throws SQLException  {
     	return service.removerProduto(id);
     }
     
-    @PutMapping
-    public ProdutoResponse alterarProduto(@RequestBody Produto produto) throws SQLException {
+    @PutMapping("/{id}")
+    public ProdutoResponse alterarProduto(@RequestBody ProdutoRequest request, @PathVariable int id) throws SQLException {
     	return mapper.produtoToResponse(
-    			service.alterarProduto(produto));
+    			service.alterarProduto(
+    					mapper.produtoRequestToProduto(request), id));
+    }
+    
+    @GetMapping("/{id}")
+    public ProdutoResponse getById(@PathVariable int id) throws SQLException  {
+    	return mapper.produtoToResponse(service.getById(id));
     }
 
 }
