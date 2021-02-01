@@ -61,4 +61,12 @@ public class ProdutoService {
 		return idGerado;
 	}
 	
+	public int removerProduto(int id) throws SQLException {
+		Connection connection = connectionFactory.openConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("DELETE FROM PRODUTOS WHERE ID=" + id);
+        connection.close();
+		return id;
+	}
+	
 }
