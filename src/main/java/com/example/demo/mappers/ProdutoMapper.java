@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.example.demo.DTOs.ProdutoRequest;
 import com.example.demo.DTOs.ProdutoResponse;
 import com.example.demo.model.Produto;
 
@@ -12,19 +13,24 @@ import com.example.demo.model.Produto;
 public class ProdutoMapper {
 
 	public List<ProdutoResponse> dtoFromProduto(List<Produto> produtos){
-		
 		ArrayList<ProdutoResponse> produtosResponse = new ArrayList<ProdutoResponse>();
-		
 		for(Produto produto : produtos) {
 			produtosResponse.add(
 					new ProdutoResponse(
 							produto.getId(), 
 							produto.getNome(), 
 							produto.getDescricao(), 
-							produto.getPreco())
-					);
+							produto.getPreco()));
 		}
 		return produtosResponse;
+	}
+	
+	public Produto produtoRequestToProduto(ProdutoRequest produtoRequest) {
+		Produto produto = new Produto();
+		produto.setNome(produtoRequest.getNome());
+		produto.setDescricao(produtoRequest.getDescricao());
+		produto.setPreco(produtoRequest.getPreco());
+		return produto;
 	}
 	
 }

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.DTOs.ProdutoRequest;
 import com.example.demo.DTOs.ProdutoResponse;
 import com.example.demo.mappers.ProdutoMapper;
-import com.example.demo.model.Produto;
 import com.example.demo.services.ProdutoService;
 
 
@@ -33,10 +33,8 @@ public class ProdutoController {
     }
 
     @PostMapping("/add/produto")
-    public Produto adicionarProduto(@RequestBody Produto produto){
-    	
-    	return null;
-    	
+    public int adicionarProduto(@RequestBody ProdutoRequest produtoRequest) throws SQLException{
+    	return service.adicionarProduto(mapper.produtoRequestToProduto(produtoRequest));
     }
 
 }

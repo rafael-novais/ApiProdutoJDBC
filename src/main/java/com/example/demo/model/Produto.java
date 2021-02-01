@@ -6,9 +6,8 @@ public class Produto {
     private String nome;
     private String descricao;
     private double preco;
-
     
-    public void setNome(String nome){
+	public void setNome(String nome){
         this.nome = nome;
     }
     public void setDescricao(String descricao){

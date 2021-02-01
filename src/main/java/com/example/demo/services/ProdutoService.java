@@ -42,4 +42,23 @@ public class ProdutoService {
 		return listaDeProdutos;
 	}
 	
+	public int adicionarProduto(Produto produto) throws SQLException {
+		Connection connection = connectionFactory.openConnection();
+        Statement statement = connection.createStatement();
+        statement.execute(
+        		"INSERT INTO PRODUTOS(NOME, DESCRICAO, PRECO) VALUES(" 
+        		+ "'" + produto.getNome() + "'" + "," 
+        		+ "'" + produto.getDescricao() + "'" + ","
+        		+ produto.getPreco() + ")",
+        		Statement.RETURN_GENERATED_KEYS);
+        
+        ResultSet resultSet = statement.getGeneratedKeys();
+        int idGerado = 0;
+        while(resultSet.next()) {
+        	idGerado = resultSet.getInt(1);
+        }
+        connection.close();
+		return idGerado;
+	}
+	
 }
