@@ -69,4 +69,34 @@ public class ProdutoService {
 		return id;
 	}
 	
+	public Produto alterarProduto(Produto produto) throws SQLException {
+		Connection connection = connectionFactory.openConnection();
+        Statement statement = connection.createStatement();
+        statement.execute(
+        		"UPDATE PRODUTOS SET " 
+        		+ "NOME = '" + produto.getNome() + "'" + "," 
+        		+ "DESCRICAO = '" + produto.getDescricao() + "'" + ","
+        		+ "PRECO = " + produto.getPreco()
+        		+ "WHERE ID = " + produto.getId());
+      
+        connection.close();
+		return getById(produto.getId());
+	}
+	
+	public Produto getById(int id) throws SQLException {
+		Connection connection = connectionFactory.openConnection();
+		Produto produto = new Produto();
+        Statement statement = connection.createStatement();
+        statement.execute("SELECT * FROM PRODUTOS WHERE ID = " + id);
+        ResultSet resultSet = statement.getResultSet();
+        while(resultSet.next()){
+            produto.setId(resultSet.getInt("ID"));
+            produto.setNome(resultSet.getString("NOME"));
+            produto.setDescricao(resultSet.getString("DESCRICAO"));
+            produto.setPreco(resultSet.getDouble("PRECO"));
+        }
+        connection.close();
+		return produto;
+	}
+	
 }

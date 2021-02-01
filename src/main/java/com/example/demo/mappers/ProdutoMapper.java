@@ -12,7 +12,7 @@ import com.example.demo.model.Produto;
 @Component
 public class ProdutoMapper {
 
-	public List<ProdutoResponse> dtoFromProduto(List<Produto> produtos){
+	public List<ProdutoResponse> produtoListToResonseList(List<Produto> produtos){
 		ArrayList<ProdutoResponse> produtosResponse = new ArrayList<ProdutoResponse>();
 		for(Produto produto : produtos) {
 			produtosResponse.add(
@@ -31,6 +31,14 @@ public class ProdutoMapper {
 		produto.setDescricao(produtoRequest.getDescricao());
 		produto.setPreco(produtoRequest.getPreco());
 		return produto;
+	}
+	
+	public ProdutoResponse produtoToResponse(Produto produto) {
+		return new ProdutoResponse(
+				produto.getId(),
+				produto.getNome(), 
+				produto.getDescricao(),
+				produto.getPreco());
 	}
 	
 }
