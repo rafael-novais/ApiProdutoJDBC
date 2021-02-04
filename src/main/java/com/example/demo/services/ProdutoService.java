@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.BD.ConnectionFactory;
 import com.example.demo.model.Produto;
+import com.mysql.cj.xdevapi.PreparableStatement;
 
 @Service
 public class ProdutoService {
@@ -44,15 +46,15 @@ public class ProdutoService {
 	
 	public int adicionarProduto(Produto produto) throws SQLException {
 		Connection connection = connectionFactory.openConnection();
-        Statement statement = connection.createStatement();
-        statement.execute(
-        		"INSERT INTO PRODUTOS(NOME, DESCRICAO, PRECO) VALUES(" 
-        		+ "'" + produto.getNome() + "'" + "," 
-        		+ "'" + produto.getDescricao() + "'" + ","
-        		+ produto.getPreco() + ")",
-        		Statement.RETURN_GENERATED_KEYS);
+        String sql = "INSERT INTO PRODUTOS(NOME, DESCRICAO, PRECO) VALUES(?, ?, ?)";
+        PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); 
+        stm.setString(1, produto.getNome());
+        stm.setString(2, produto.getDescricao());
+        stm.setDouble(3, produto.getPreco());
         
-        ResultSet resultSet = statement.getGeneratedKeys();
+        stm.execute();
+        
+        ResultSet resultSet = stm.getGeneratedKeys();
         int idGerado = 0;
         while(resultSet.next()) {
         	idGerado = resultSet.getInt(1);
