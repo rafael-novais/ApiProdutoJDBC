@@ -47,30 +47,31 @@ public class ProdutoService {
 		Connection connection = connectionFactory.openConnection();
         String sql = "INSERT INTO PRODUTOS(NOME, DESCRICAO, PRECO) VALUES(?, ?, ?)";
         
-        try {
-        	PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); 
-        	stm.setString(1, produto.getNome());
-        	stm.setString(2, produto.getDescricao());
-        	stm.setDouble(3, produto.getPreco());
+        try (PreparedStatement stm = 
+        		connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
         	
-        	stm.execute();
-        	
-        	ResultSet resultSet = stm.getGeneratedKeys();
-        	
-        	int idGerado = 0;
-        	
-        	while(resultSet.next()) {
-        		idGerado = resultSet.getInt(1);
-        	}
-        	
-        	connection.commit();
-        	connection.close();  
-        	
-        	return idGerado;
+	        	stm.setString(1, produto.getNome());
+	        	stm.setString(2, produto.getDescricao());
+	        	stm.setDouble(3, produto.getPreco());
+	        	
+	        	stm.execute();
+	        	
+	        	ResultSet resultSet = stm.getGeneratedKeys();
+	        	
+	        	int idGerado = 0;
+	        	
+	        	while(resultSet.next()) {
+	        		idGerado = resultSet.getInt(1);
+	        	}
+	        	
+	        	connection.commit();
+	        	return idGerado;
         	
         }catch(Exception e) {
-        	connection.rollback();
+        	connection.rollback();        	
         	throw new SQLException("Erro ao adicionar produto");
+        }finally {
+        	connection.close();  
         }
 	}
 	
