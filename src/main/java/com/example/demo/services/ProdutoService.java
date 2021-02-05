@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.BD.ConnectionFactory;
 import com.example.demo.model.Produto;
-import com.mysql.cj.xdevapi.PreparableStatement;
 
 @Service
 public class ProdutoService {
@@ -47,26 +46,39 @@ public class ProdutoService {
 	public int adicionarProduto(Produto produto) throws SQLException {
 		Connection connection = connectionFactory.openConnection();
         String sql = "INSERT INTO PRODUTOS(NOME, DESCRICAO, PRECO) VALUES(?, ?, ?)";
-        PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); 
-        stm.setString(1, produto.getNome());
-        stm.setString(2, produto.getDescricao());
-        stm.setDouble(3, produto.getPreco());
         
-        stm.execute();
-        
-        ResultSet resultSet = stm.getGeneratedKeys();
-        int idGerado = 0;
-        while(resultSet.next()) {
-        	idGerado = resultSet.getInt(1);
+        try {
+        	PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); 
+        	stm.setString(1, produto.getNome());
+        	stm.setString(2, produto.getDescricao());
+        	stm.setDouble(3, produto.getPreco());
+        	
+        	stm.execute();
+        	
+        	ResultSet resultSet = stm.getGeneratedKeys();
+        	
+        	int idGerado = 0;
+        	
+        	while(resultSet.next()) {
+        		idGerado = resultSet.getInt(1);
+        	}
+        	
+        	connection.commit();
+        	connection.close();  
+        	
+        	return idGerado;
+        	
+        }catch(Exception e) {
+        	connection.rollback();
+        	throw new SQLException("Erro ao adicionar produto");
         }
-        connection.close();
-		return idGerado;
 	}
 	
 	public int removerProduto(int id) throws SQLException {
 		Connection connection = connectionFactory.openConnection();
         Statement statement = connection.createStatement();
         statement.execute("DELETE FROM PRODUTOS WHERE ID=" + id);
+        connection.commit();
         connection.close();
 		return id;
 	}
@@ -81,6 +93,7 @@ public class ProdutoService {
         		+ "PRECO = " + produto.getPreco()
         		+ "WHERE ID = " + id);
       
+        connection.commit();
         connection.close();
 		return getById(id);
 	}

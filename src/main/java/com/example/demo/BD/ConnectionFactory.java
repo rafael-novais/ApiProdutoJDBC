@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConnectionFactory {
-
     public Connection openConnection() throws SQLException{
-        return DriverManager.getConnection(
+    	Connection connection = DriverManager.getConnection(
             "jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC",
             "root",
             "poli1340"
         );
+    	connection.setAutoCommit(false);
+    	return connection;
     }
 }
