@@ -1,4 +1,4 @@
-package com.example.demo.BD;
+package ultraje.BDConfig;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package ultraje.controller;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.DTOs.ProdutoRequest;
-import com.example.demo.DTOs.ProdutoResponse;
-import com.example.demo.mappers.ProdutoMapper;
-import com.example.demo.services.ProdutoService;
+import ultraje.DTO.ProdutoRequest;
+import ultraje.DTO.ProdutoResponse;
+import ultraje.mapper.ProdutoMapper;
+import ultraje.service.ProdutoService;
 
 
 @RequestMapping("/produtos")

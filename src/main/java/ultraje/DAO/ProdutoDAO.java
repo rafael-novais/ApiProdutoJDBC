@@ -1,4 +1,4 @@
-package com.example.demo.services;
+package ultraje.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,21 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-import com.example.demo.BD.ConnectionFactory;
-import com.example.demo.model.Produto;
+import ultraje.BDConfig.ConnectionFactory;
+import ultraje.model.Produto;
 
-@Service
-public class ProdutoService {
+@Repository
+public class ProdutoDAO {
 	
 	ConnectionFactory connectionFactory;
 	
 	@Autowired
-	public ProdutoService(ConnectionFactory connectionFactory) {
+	public ProdutoDAO(ConnectionFactory connectionFactory) {
 		this.connectionFactory = connectionFactory; 
 	}
-
+	
 	public List<Produto> getProdutos() throws SQLException {
 		Connection connection = connectionFactory.openConnection();
 		ArrayList<Produto> listaDeProdutos = new ArrayList<Produto>();

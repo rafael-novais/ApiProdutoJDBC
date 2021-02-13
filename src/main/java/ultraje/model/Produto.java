@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package ultraje.model;
 
 public class Produto {
 
