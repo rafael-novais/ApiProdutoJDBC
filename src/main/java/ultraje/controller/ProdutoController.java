@@ -1,9 +1,10 @@
 package ultraje.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,30 +34,59 @@ public class ProdutoController {
 	}
 
     @GetMapping
-    public List<ProdutoResponse> listarProdutos() throws SQLException{
-        return this.mapper.produtoListToResonseList(this.service.getProdutos()); 
+    public ResponseEntity<?> listarProdutos(){
+    	try {
+    		return new ResponseEntity<List<ProdutoResponse>>(
+    				this.mapper.produtoListToResonseList(this.service.getProdutos()), 
+    				HttpStatus.OK); 
+    	}catch (Exception e) {
+    		return ResponseEntity.badRequest().body(e.getMessage());
+		}
+        
     }
 
     @PostMapping
-    public int adicionarProduto(@RequestBody ProdutoRequest produtoRequest) throws SQLException{
-    	return service.adicionarProduto(mapper.produtoRequestToProduto(produtoRequest));
+    public ResponseEntity<?> adicionarProduto(@RequestBody ProdutoRequest produtoRequest){
+    	try {
+    		return new ResponseEntity<Integer>(
+    				service.adicionarProduto(mapper.produtoRequestToProduto(produtoRequest)), 
+    				HttpStatus.CREATED);    		
+    	}catch (Exception e) {
+    		return ResponseEntity.badRequest().body(e.getMessage());
+		}
     }
     
     @DeleteMapping("/{id}")
-    public int removerProduto(@PathVariable int id) throws SQLException  {
-    	return service.removerProduto(id);
+    public ResponseEntity<?> removerProduto(@PathVariable int id){
+    	try {
+    		return new ResponseEntity<Integer>(
+    				service.removerProduto(id), 
+    				HttpStatus.NO_CONTENT);
+    	}catch (Exception e) {
+    		return ResponseEntity.badRequest().body(e.getMessage());
+		}
     }
     
     @PutMapping("/{id}")
-    public ProdutoResponse alterarProduto(@RequestBody ProdutoRequest request, @PathVariable int id) throws SQLException {
-    	return mapper.produtoToResponse(
-    			service.alterarProduto(
-    					mapper.produtoRequestToProduto(request), id));
+    public ResponseEntity<?> alterarProduto(@RequestBody ProdutoRequest request, @PathVariable int id){
+    	try {
+    		return new ResponseEntity<ProdutoResponse>(
+    				mapper.produtoToResponse(service.alterarProduto(mapper.produtoRequestToProduto(request), id)), 
+    				HttpStatus.OK);    		
+    	}catch (Exception e) {
+    		return ResponseEntity.badRequest().body(e.getMessage());
+		}
     }
     
     @GetMapping("/{id}")
-    public ProdutoResponse getById(@PathVariable int id) throws SQLException  {
-    	return mapper.produtoToResponse(service.getById(id));
+    public ResponseEntity<?> getById(@PathVariable int id){
+    	try {
+    		return new ResponseEntity<ProdutoResponse>(
+    				mapper.produtoToResponse(service.getById(id)),
+    				HttpStatus.OK);    		
+    	}catch (Exception e) {
+    		return ResponseEntity.badRequest().body(e.getMessage());
+		}
     }
 
 }
