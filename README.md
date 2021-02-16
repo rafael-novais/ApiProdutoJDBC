@@ -7,13 +7,13 @@ Não existe uma definição correta sobre o que será o Ultraje, ele nasce da ne
 Em breve teremos o script do *Milhouse* (DB do projeto ultraje), ou quem sabe até o Milhouse esteja disponivel na nuvem... Por hora você pode apenas configurar o projeto sem acesso ao banco na sua maquina, o que não serve de nada mas... é facinho, tá na mão o passo a passo:
 
 ***git clone https://github.com/rafael-novais/ultraje.git***
-Clone o projeto no diretorio de sua preferencia.
+*Clone o projeto no diretorio de sua preferencia.*
 
 ***mvn install***
-Rode o famigerado maven install no projeto.
+*Rode o famigerado maven install no projeto.*
 
 ***mvn spring-boot:run***
-Depois desse comando já era, ultraje estará no ar em seu localhost!
+*Depois desse comando já era, ultraje estará no ar em seu localhost!*
 
 #Tecnologias
 
