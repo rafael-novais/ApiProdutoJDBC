@@ -4,12 +4,21 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ultraje.mapper.CategoriaMapper;
 import ultraje.model.Categoria;
 
 @Service
 public class CategoriaService {
+	
+	CategoriaMapper mapper;
+	
+	@Autowired
+	public CategoriaService(CategoriaMapper mapper) {
+		this.mapper = mapper;
+	}
 
 	public String getCategorias() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("categorias");
@@ -33,10 +42,7 @@ public class CategoriaService {
 	public Categoria getById(Short id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("categorias");
 		EntityManager em = emf.createEntityManager();
-		
-		Categoria categoria = em.find(Categoria.class, id);
-		
-		return categoria;
+		return em.find(Categoria.class, id);
 	}
 	
 }

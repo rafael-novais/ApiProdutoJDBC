@@ -1,5 +1,6 @@
 package ultraje.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +13,10 @@ public class Categoria {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private Short id;
+	
+	@Column(name="nome")
 	private String nome;
 	
 	public Short getId() {
