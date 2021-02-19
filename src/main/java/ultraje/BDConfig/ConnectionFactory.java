@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
+import ultraje.conf.UltrajeConstants;
+
 @Component
 public class ConnectionFactory {
 	
@@ -16,10 +18,9 @@ public class ConnectionFactory {
 	
 	public ConnectionFactory() {
 		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
-		comboPooledDataSource.setJdbcUrl(
-					"jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC");
-		comboPooledDataSource.setUser("root");
-		comboPooledDataSource.setPassword("1234");
+		comboPooledDataSource.setJdbcUrl(UltrajeConstants.connection_string);
+		comboPooledDataSource.setUser(UltrajeConstants.bd_user);
+		comboPooledDataSource.setPassword(UltrajeConstants.bd_password);
 		dataSource = comboPooledDataSource;
 	}
 	
