@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ultraje.DAO.ProdutoDAO;
+import ultraje.dao.ProdutoDAO;
+import ultraje.domain.entity.Produto;
 import ultraje.exception.ServiceException;
-import ultraje.model.Produto;
 
 @Service
 public class ProdutoService {

@@ -1,4 +1,4 @@
-package ultraje.model;
+package ultraje.domain.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package ultraje.model;
+package ultraje.domain.entity;
 
 public class Produto {
 

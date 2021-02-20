@@ -1,4 +1,4 @@
-package ultraje.conf;
+package ultraje.config;
 
 public interface UltrajeConstants {
 	

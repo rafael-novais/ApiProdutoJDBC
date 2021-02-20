@@ -7,8 +7,8 @@ import javax.persistence.Persistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ultraje.domain.entity.Categoria;
 import ultraje.mapper.CategoriaMapper;
-import ultraje.model.Categoria;
 
 @Service
 public class CategoriaService {

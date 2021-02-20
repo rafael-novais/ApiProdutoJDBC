@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ultraje.DTO.ProdutoRequest;
-import ultraje.DTO.ProdutoResponse;
+import ultraje.domain.dto.ProdutoRequest;
+import ultraje.domain.dto.ProdutoResponse;
 import ultraje.mapper.ProdutoMapper;
 import ultraje.service.ProdutoService;
 

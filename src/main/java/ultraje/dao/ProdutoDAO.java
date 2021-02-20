@@ -1,4 +1,4 @@
-package ultraje.DAO;
+package ultraje.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,9 +11,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ultraje.BDConfig.ConnectionFactory;
+import ultraje.dDConfig.ConnectionFactory;
+import ultraje.domain.entity.Produto;
 import ultraje.exception.DAOException;
-import ultraje.model.Produto;
 
 @Repository
 public class ProdutoDAO {

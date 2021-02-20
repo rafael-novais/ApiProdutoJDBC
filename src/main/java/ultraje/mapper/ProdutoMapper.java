@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import ultraje.DTO.ProdutoRequest;
-import ultraje.DTO.ProdutoResponse;
-import ultraje.model.Produto;
+import ultraje.domain.dto.ProdutoRequest;
+import ultraje.domain.dto.ProdutoResponse;
+import ultraje.domain.entity.Produto;
 
 @Component
 public class ProdutoMapper {

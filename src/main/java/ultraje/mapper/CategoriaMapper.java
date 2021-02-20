@@ -2,8 +2,8 @@ package ultraje.mapper;
 
 import org.springframework.stereotype.Component;
 
-import ultraje.DTO.CategoriaRequest;
-import ultraje.model.Categoria;
+import ultraje.domain.dto.CategoriaRequest;
+import ultraje.domain.entity.Categoria;
 
 @Component
 public class CategoriaMapper {

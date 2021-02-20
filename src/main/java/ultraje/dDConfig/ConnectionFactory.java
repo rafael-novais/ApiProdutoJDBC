@@ -1,4 +1,4 @@
-package ultraje.BDConfig;
+package ultraje.dDConfig;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import ultraje.conf.UltrajeConstants;
+import ultraje.config.UltrajeConstants;
 
 @Component
 public class ConnectionFactory {

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ultraje.DTO.CategoriaRequest;
+import ultraje.domain.dto.CategoriaRequest;
+import ultraje.domain.entity.Categoria;
 import ultraje.mapper.CategoriaMapper;
-import ultraje.model.Categoria;
 import ultraje.service.CategoriaService;
 
 @RequestMapping("/categorias")

@@ -1,4 +1,4 @@
-package ultraje.DTO;
+package ultraje.domain.dto;
 
 public class ProdutoResponse {
 	private int id;
