@@ -2,6 +2,8 @@ package ultraje.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +48,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> adicionarProduto(@RequestBody ProdutoRequest produtoRequest){
+    public ResponseEntity<?> adicionarProduto(@RequestBody @Valid ProdutoRequest produtoRequest){
     	try {
     		return new ResponseEntity<Integer>(
     				service.adicionarProduto(mapper.produtoRequestToProduto(produtoRequest)), 

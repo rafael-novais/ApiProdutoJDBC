@@ -1,6 +1,10 @@
 package ultraje.DTO;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class ProdutoRequest {
+	@NotNull @NotEmpty
     private String nome;
     private String descricao;
     private double preco;
