@@ -52,7 +52,7 @@ public class ProdutoDAO {
 		}
 	}
 	
-	public int adicionarProduto(Produto produto) throws DAOException, SQLException {
+	public Produto adicionarProduto(Produto produto) throws DAOException, SQLException {
 		Connection connection = connectionFactory.openConnection();
         String sql = "INSERT INTO PRODUTOS(NOME, DESCRICAO, PRECO) VALUES(?, ?, ?)";
         
@@ -72,7 +72,11 @@ public class ProdutoDAO {
 	        	}
 	        	
 	        	connection.commit();
-	        	return idGerado;
+	        	
+	        	Produto createdProduct = new Produto();
+	        	createdProduct.setId(idGerado);
+	        	
+	        	return createdProduct;
         	
         }catch(Exception e) {
         	connection.rollback();        	

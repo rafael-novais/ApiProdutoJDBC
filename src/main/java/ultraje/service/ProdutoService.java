@@ -27,7 +27,7 @@ public class ProdutoService {
 		}
 	}
 	
-	public int adicionarProduto(Produto produto) throws ServiceException {
+	public Produto adicionarProduto(Produto produto) throws ServiceException {
 		try {
 			return dao.adicionarProduto(produto);			
 		}catch (Exception e) {

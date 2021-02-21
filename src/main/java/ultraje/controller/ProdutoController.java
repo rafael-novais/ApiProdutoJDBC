@@ -1,5 +1,6 @@
 package ultraje.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import ultraje.domain.dto.ProdutoRequest;
 import ultraje.domain.dto.ProdutoResponse;
@@ -48,11 +50,16 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> adicionarProduto(@RequestBody @Valid ProdutoRequest produtoRequest){
+    public ResponseEntity<?> adicionarProduto(@RequestBody @Valid ProdutoRequest produtoRequest,
+    		UriComponentsBuilder uriBuilder){
     	try {
-    		return new ResponseEntity<Integer>(
-    				service.adicionarProduto(mapper.produtoRequestToProduto(produtoRequest)), 
-    				HttpStatus.CREATED);    		
+    		ProdutoResponse createdProduct = 
+    				mapper.produtoToResponse(
+    						service.adicionarProduto(
+    								mapper.produtoRequestToProduto(produtoRequest)));
+    		
+    		URI uri = uriBuilder.path("/produtos/{id}").buildAndExpand(createdProduct.getId()).toUri();
+    		return ResponseEntity.created(uri).body(createdProduct);
     	}catch (Exception e) {
     		return ResponseEntity.badRequest().body(e.getMessage());
 		}
