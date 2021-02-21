@@ -137,12 +137,12 @@ public class ProdutoDAO {
 			
 			if(!resultSet.next()) throw new DAOException("Recurso não encontrado! - 404");
 			
-			while(resultSet.next()){
-	            produto.setId(resultSet.getInt("ID"));
-	            produto.setNome(resultSet.getString("NOME"));
-	            produto.setDescricao(resultSet.getString("DESCRICAO"));
-	            produto.setPreco(resultSet.getDouble("PRECO"));
-	        }
+			
+            produto.setId(resultSet.getInt("ID"));
+            produto.setNome(resultSet.getString("NOME"));
+            produto.setDescricao(resultSet.getString("DESCRICAO"));
+            produto.setPreco(resultSet.getDouble("PRECO"));
+	        
 			return produto;
 		}catch (Exception e) {
 			connection.rollback();
