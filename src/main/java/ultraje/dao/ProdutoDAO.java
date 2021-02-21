@@ -134,6 +134,9 @@ public class ProdutoDAO {
 			stm.execute();
 			connection.commit();
 			ResultSet resultSet = stm.getResultSet();
+			
+			if(!resultSet.next()) throw new DAOException("Recurso não encontrado! - 404");
+			
 			while(resultSet.next()){
 	            produto.setId(resultSet.getInt("ID"));
 	            produto.setNome(resultSet.getString("NOME"));
