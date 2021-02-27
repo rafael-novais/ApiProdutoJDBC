@@ -12,13 +12,9 @@ import ultraje.exception.ServiceException;
 @Service
 public class ProdutoService {
 
-	ProdutoDAO dao;
-	
 	@Autowired
-	public ProdutoService(ProdutoDAO dao) {
-		this.dao = dao;
-	}
-
+	private ProdutoDAO dao;
+	
 	public List<Produto> getProdutos() throws ServiceException {
 		try {
 			return dao.getProdutos();			
@@ -29,7 +25,8 @@ public class ProdutoService {
 	
 	public Produto adicionarProduto(Produto produto) throws ServiceException {
 		try {
-			return dao.adicionarProduto(produto);			
+			Produto produtoAdicionado = dao.adicionarProduto(produto);
+			return produtoAdicionado;
 		}catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}

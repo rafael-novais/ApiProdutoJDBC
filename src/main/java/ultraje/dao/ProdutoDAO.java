@@ -1,154 +1,114 @@
 package ultraje.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import static ultraje.util.constants.ProdutoDAOConstants.PARAM_PRODUCT_DESCRIPTION;
+import static ultraje.util.constants.ProdutoDAOConstants.PARAM_PRODUCT_ID;
+import static ultraje.util.constants.ProdutoDAOConstants.PARAM_PRODUCT_NAME;
+import static ultraje.util.constants.ProdutoDAOConstants.PARAM_PRODUCT_PRICE;
+
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import ultraje.config.ConnectionFactory;
 import ultraje.domain.entity.Produto;
 import ultraje.exception.DAOException;
 
 @Repository
 public class ProdutoDAO {
-	
-	ConnectionFactory connectionFactory;
+
+	@Autowired
+	private NamedParameterJdbcTemplate sql;
 	
 	@Autowired
-	public ProdutoDAO(ConnectionFactory connectionFactory) {
-		this.connectionFactory = connectionFactory; 
-	}
-	
-	public List<Produto> getProdutos() throws DAOException, SQLException {
-		Connection connection = connectionFactory.openConnection();
-		ArrayList<Produto> listaDeProdutos = new ArrayList<Produto>();
-		String sql = "SELECT * FROM PRODUTOS";
+	private PlatformTransactionManager transactionManager;
 		
-		try(PreparedStatement stm = 
-        		connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-			stm.execute();
-			ResultSet resultSet = stm.getResultSet();
-			while(resultSet.next()){
-	            Produto produto = new Produto();
-	            produto.setId(resultSet.getInt("ID"));
-	            produto.setNome(resultSet.getString("NOME"));
-	            produto.setDescricao(resultSet.getString("DESCRICAO"));
-	            produto.setPreco(resultSet.getDouble("PRECO"));
-
-	            listaDeProdutos.add(produto);
-	        }
+	public List<Produto> getProdutos() throws DAOException, SQLException {
+		try{
+			List<Produto> listaDeProdutos = sql.query("SELECT * FROM PRODUTOS", 
+					(resultSet, rowNum) -> new Produto(
+							resultSet.getInt("ID"), 
+							resultSet.getString("NOME"),
+							resultSet.getString("DESCRICAO"),
+							resultSet.getDouble("PRECO")));
+			
 			return listaDeProdutos;
 		}catch (Exception e) {
-			connection.rollback();
 			throw new DAOException("Erro ao buscar produtos");
-		}finally {
-			connection.close();
 		}
 	}
 	
 	public Produto adicionarProduto(Produto produto) throws DAOException, SQLException {
-		Connection connection = connectionFactory.openConnection();
-        String sql = "INSERT INTO PRODUTOS(NOME, DESCRICAO, PRECO) VALUES(?, ?, ?)";
-        
-        try (PreparedStatement stm = 
-        		connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-        	
-	        	stm.setString(1, produto.getNome());
-	        	stm.setString(2, produto.getDescricao());
-	        	stm.setDouble(3, produto.getPreco());
-	        	stm.execute();
-	        	ResultSet resultSet = stm.getGeneratedKeys();
-	        	
-	        	int idGerado = 0;
-
-	        	while(resultSet.next()) {
-	        		idGerado = resultSet.getInt(1);
-	        	}
-	        	
-	        	connection.commit();
-	        	
-	        	Produto createdProduct = new Produto();
-	        	createdProduct.setId(idGerado);
-	        	
-	        	return createdProduct;
-        	
-        }catch(Exception e) {
-        	connection.rollback();        	
-        	throw new DAOException("Erro ao adicionar produto");
-        }finally {
-        	connection.close();  
-        }
+		TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		Map<String, Object> parameters = new HashMap<String, Object>(); 
+		parameters.put(PARAM_PRODUCT_ID, produto.getId());
+		parameters.put(PARAM_PRODUCT_NAME, produto.getNome());
+		parameters.put(PARAM_PRODUCT_DESCRIPTION, produto.getDescricao());
+		parameters.put(PARAM_PRODUCT_PRICE, produto.getPreco());
+		String sql = "INSERT INTO PRODUTOS(NOME,DESCRICAO,PRECO) VALUES(:product_name, :product_description, :product_price)";
+		try{
+			this.sql.update(sql, parameters);
+			transactionManager.commit(status);
+			return produto;
+		}catch (Exception e) {
+			transactionManager.rollback(status);
+			throw new DAOException("Erro ao adicionar produto");
+		}
 	}
 	
 	public int removerProduto(int id) throws DAOException, SQLException {
-		Connection connection = connectionFactory.openConnection();
-		String sql = "DELETE FROM PRODUTOS WHERE ID=?";
-		try(PreparedStatement stm = 
-        		connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-			stm.setInt(1, id);
-			stm.execute();
-			connection.commit();
+		TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		Map<String, Object> parameters = new HashMap<String, Object>(); 
+		parameters.put(PARAM_PRODUCT_ID, id);
+		try{
+			this.sql.update("DELETE FROM PRODUTOS WHERE ID = :product_id", parameters);
+			transactionManager.commit(status);
 			return id;
 		}catch (Exception e) {
-			connection.rollback();
+			transactionManager.rollback(status);
 			throw new DAOException("Erro ao remover produto");
-		}finally {
-			connection.close();
 		}
 	}
 	
 	public Produto alterarProduto(Produto produto, int id) throws DAOException, SQLException {
-		Connection connection = connectionFactory.openConnection();
-		String sql = "UPDATE PRODUTOS SET NOME = ?, DESCRICAO = ?, PRECO = ? WHERE ID = ?";
-		
-		try(PreparedStatement stm = 
-        		connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-			stm.setString(1, produto.getNome());
-			stm.setString(2, produto.getDescricao());
-			stm.setDouble(3, produto.getPreco());
-			stm.setInt(4, id);
-			stm.execute();
-			connection.commit();
+		TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		Map<String, Object> parameters = new HashMap<String, Object>(); 
+		parameters.put(PARAM_PRODUCT_ID, id);
+		parameters.put(PARAM_PRODUCT_NAME, produto.getNome());
+		parameters.put(PARAM_PRODUCT_DESCRIPTION, produto.getDescricao());
+		parameters.put(PARAM_PRODUCT_PRICE, produto.getPreco());
+		String sql = "UPDATE PRODUTOS SET NOME = :product_name, DESCRICAO = :product_description, PRECO = :product_price WHERE ID = :product_id";
+		try{
+			this.sql.update(sql, parameters);
+			transactionManager.commit(status);
 			return getById(id);
 		}catch (Exception e) {
-			connection.rollback();
+			transactionManager.rollback(status);
 			throw new DAOException("Erro ao alterar produto");
-		}finally {
-			connection.close();
 		}
 	}
 	
 	public Produto getById(int id) throws DAOException, SQLException {
-		Connection connection = connectionFactory.openConnection();
-		String sql = "SELECT * FROM PRODUTOS WHERE ID = ?";
-		Produto produto = new Produto();
-		try(PreparedStatement stm = 
-        		connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-			stm.setInt(1, id);
-			stm.execute();
-			connection.commit();
-			ResultSet resultSet = stm.getResultSet();
-			
-			if(!resultSet.next()) throw new DAOException("Recurso não encontrado! - 404");
-			
-			
-            produto.setId(resultSet.getInt("ID"));
-            produto.setNome(resultSet.getString("NOME"));
-            produto.setDescricao(resultSet.getString("DESCRICAO"));
-            produto.setPreco(resultSet.getDouble("PRECO"));
-	        
+		Map<String, Object> parameters = new HashMap<String, Object>(); 
+		parameters.put(PARAM_PRODUCT_ID, id);
+		try{
+			Produto produto= sql.queryForObject(
+				"SELECT * FROM PRODUTOS WHERE ID = :product_id", 
+				parameters,
+				(resultSet, rowNum) -> new Produto(
+						resultSet.getInt("ID"), 
+						resultSet.getString("NOME"),
+						resultSet.getString("DESCRICAO"),
+						resultSet.getDouble("PRECO")));
 			return produto;
 		}catch (Exception e) {
-			connection.rollback();
 			throw new DAOException("Erro ao buscar produto por ID");
-		}finally {
-			connection.close();
 		}
 	}
 	
