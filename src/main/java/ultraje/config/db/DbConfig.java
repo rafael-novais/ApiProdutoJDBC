@@ -1,4 +1,4 @@
-package ultraje.config;
+package ultraje.config.db;
 
 import javax.sql.DataSource;
 
