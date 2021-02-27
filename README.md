@@ -1,6 +1,6 @@
 # Ultraje API
 
-Ultraje nasceu pra ser exatamente o que seu nome propõe, um ultraje a tecnologia, a ideia era fazer um backend maluco com diversos padrões diferentes pra problemas similares etc, mas mudei de ideia e agora tô fazendo um app de gestão de financeira, ultraje ainda é um embrião de sabe-se lá deus o quê...
+Ultraje nasceu pra ser exatamente o que seu nome propõe, um ultraje a tecnologia, a ideia era fazer um backend maluco com diversos padrões diferentes pra problemas similares etc, mas mudei de ideia e agora tô fazendo um app de gestão de financeira, ultraje ainda é um embrião de sabe-se lá deus o quê, tomara que saia algo bom...
 
 ## Get Started
 
