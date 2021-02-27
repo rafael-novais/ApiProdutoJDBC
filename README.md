@@ -1,10 +1,10 @@
 # Ultraje API
 
-Não existe uma definição correta sobre o que será o Ultraje, ele nasce da necessidade de aprendizado de novas tecnologias e padrões. O projeto recebe esse nome porque será um ultraje as boas praticas de desenvolvimento, isso porque serão adotados os mais diversos padrões pra problemas similares.
+Ultraje nasceu pra ser exatamente o que seu nome propõe, um ultraje a tecnologia, a ideia era fazer um backend maluco com diversos padrões diferentes pra problemas similares etc, mas mudei de ideia e agora tô fazendo um app de gestão de financeira, ultraje ainda é um embrião...
 
 ## Get Started
 
-Em breve teremos o script do *Milhouse* (DB do projeto ultraje), ou quem sabe até o Milhouse esteja disponivel na nuvem... Por hora você pode apenas configurar o projeto sem acesso ao banco na sua maquina, o que não serve de nada mas... é facinho, tá na mão o passo a passo:
+O banco *Milhouse* (DB do projeto ultraje) ainda não tá em producão, mas o script do banco (em dialeto mysql) tá na pasta resources do projeto, dito isso tá na mão o passo a passo pra levantar o projeto localmente:
 
 ***git clone https://github.com/rafael-novais/ultraje.git***  
 *Clone o projeto no diretorio de sua preferencia.*
@@ -22,8 +22,8 @@ Puramente JAVA, a não ser que o ultraje se torne um robusto projeto com arquite
 
 ## Documentação e contratos detalhados
 
-Todos os endpoints e contratos do projeto estarão disponiveis através do endereço */swagger-ui.html*. Por disponivel apenas no seu localhost, será ainda estudada a possibilidade de um deploy em nuvem.
+Todos os endpoints e contratos do projeto estarão disponiveis através do endereço */swagger-ui.html*. Por hora disponivel apenas no seu localhost, será ainda estudada a possibilidade de um deploy em nuvem.
 
 ## Endpoints
 
-***PRODUTOS:*** Temos um endpoint completo de produtos, por hora é um crud básico, a persistência foi feita implementando o JDBC, temos também um pool de conexões usando C3PO e Mchange.
+***Ainda trabalhando...***
