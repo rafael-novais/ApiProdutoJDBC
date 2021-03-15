@@ -9,6 +9,6 @@ public class FullProfileResponse {
 	private String nickname;
 	private String email;
 	private Double salary;
-	private int account_number;
-	private int credit_card;
+	private int accountNumber;
+	private int creditCard;
 }
