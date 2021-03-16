@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import ultraje.domain.dto.client.ClientRegister;
+import ultraje.domain.dto.client.ClientToRegister;
 import ultraje.domain.dto.client.FullProfileResponse;
 import ultraje.mapper.ClientMapper;
 import ultraje.service.client.ClientService;
@@ -28,9 +28,16 @@ public class ClientController {
 	private ClientMapper clientMapper;
 
 	@PostMapping
-	public ResponseEntity<?> registerUser(@RequestBody ClientRegister clientToRegister, UriComponentsBuilder uriBuilder) {
-		URI uri = uriBuilder.path("/client/{id}").buildAndExpand(clientToRegister.getName()).toUri();
-		return ResponseEntity.created(uri).body(clientToRegister);
+	public ResponseEntity<?> registerUser(@RequestBody ClientToRegister clientToRegister, 
+			UriComponentsBuilder uriBuilder) {
+		Integer clientIdRegistred;
+		try {
+			clientIdRegistred = clientService.registerClient(clientMapper.registerDtoToClient(clientToRegister));
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(clientIdRegistred).toUri();
+		return ResponseEntity.created(uri).body(clientIdRegistred);
 	}
 	
 	@GetMapping("/{email}")

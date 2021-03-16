@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Client implements UserDetails{
 
-	private int id;
+	private Integer id;
 	private String name;
 	private String nickname;
 	private String email;
 	private String password;
 	private Double salary;
-	private int accountNumber;
-	private int creditCard;
+	private Integer accountNumber;
+	private Integer creditCard;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

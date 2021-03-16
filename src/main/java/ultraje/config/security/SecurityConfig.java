@@ -24,14 +24,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http
+		.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/clients").permitAll()
+		.antMatchers(HttpMethod.POST, "/clients").permitAll()
 		.anyRequest().authenticated()
 		.and().formLogin();
 	}
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers(HttpMethod.POST, "/clients");
 	}
 	
 }
