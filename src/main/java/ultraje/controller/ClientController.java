@@ -2,6 +2,8 @@ package ultraje.controller;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +30,7 @@ public class ClientController {
 	private ClientMapper clientMapper;
 
 	@PostMapping
-	public ResponseEntity<?> registerUser(@RequestBody ClientToRegister clientToRegister, 
+	public ResponseEntity<?> registerUser(@RequestBody @Valid ClientToRegister clientToRegister, 
 			UriComponentsBuilder uriBuilder) {
 		Integer clientIdRegistred;
 		try {
@@ -49,6 +51,5 @@ public class ClientController {
 		}catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-		
 	}
 }
