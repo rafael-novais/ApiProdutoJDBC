@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ultraje.config.security.TokenService;
 import ultraje.domain.dto.client.ClientLogin;
+import ultraje.domain.dto.client.Token;
 
 @RequestMapping("/auth")
 @RestController()
@@ -34,7 +35,7 @@ public class AuthController {
 			
 			String token = tokenService.generateToken(auth);
 			
-			return ResponseEntity.ok().body(token);
+			return ResponseEntity.ok().body(new Token(token, "Bearer"));
 		}catch (AuthenticationException e) {
 			return ResponseEntity.badRequest().build();
 		}
