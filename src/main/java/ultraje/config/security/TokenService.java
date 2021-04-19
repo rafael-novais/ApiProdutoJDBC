@@ -14,10 +14,10 @@ import ultraje.domain.entity.Client;
 @Service
 public class TokenService {
 
-	@Value("${forum.jwt.expiration}")
+	@Value("${ultraje.jwt.expiration}")
 	private String expiration;
 	
-	@Value("${forum.jwt.secret}")
+	@Value("${ultraje.jwt.secret}")
 	private String secret;
 	
 	public String generateToken(Authentication authentication) {
