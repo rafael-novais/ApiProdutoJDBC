@@ -95,4 +95,26 @@ public class ClientDao {
 		}
 	}
 	
+	public Client getById(int id) throws DAOException {
+		Map<String, Object> parameters = new HashMap<String, Object>(); 
+		parameters.put(PARAM_CLIENT_ID, id);
+		try{
+			Client client= sql.queryForObject(
+				"SELECT * FROM client WHERE id = :client_id", 
+				parameters,
+				(resultSet, rowNum) -> new Client(
+						resultSet.getInt(COLUMN_CLIENT_ID), 
+						resultSet.getString(COLUMN_CLIENT_NAME),
+						resultSet.getString(COLUMN_CLIENT_NICKNAME),
+						resultSet.getString(COLUMN_CLIENT_EMAIL),
+						resultSet.getString(COLUMN_CLIENT_PASSWORD),
+						resultSet.getDouble(COLUMN_CLIENT_SALARY),
+						resultSet.getInt(COLUMN_CLIENT_ACCOUNT_NUMBER),
+						resultSet.getInt(COLUMN_CLIENT_CREDIT_CARD)));
+			return client;
+		}catch (Exception e) {
+			throw new DAOException("Error to find client by id!");
+		}
+	}
+	
 }

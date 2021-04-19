@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import ultraje.filter.TokenAuthFilter;
+import ultraje.service.client.ClientService;
 
 @EnableWebSecurity
 @Configuration
@@ -22,6 +23,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private AuthService authService;
+	
+	@Autowired
+	private TokenService tokenService;
+	
+	@Autowired 
+	private ClientService clientService;
 	
 	@Override
 	@Bean
@@ -46,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new TokenAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new TokenAuthFilter(tokenService, clientService), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override

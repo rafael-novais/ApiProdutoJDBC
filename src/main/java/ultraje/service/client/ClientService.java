@@ -29,4 +29,12 @@ public class ClientService {
 		}
 	}
 	
+	public Client getById(int id) throws ServiceException {
+		try {
+			return clientDao.getById(id);
+		}catch (Exception e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
+	
 }
