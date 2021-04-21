@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/actuator").permitAll()
+		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
@@ -53,8 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and().addFilterBefore(new TokenAuthFilter(tokenService, clientService), UsernamePasswordAuthenticationFilter.class);
 	}
 	
+	//security config statics files 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
+		web.ignoring()
+			.antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
 	}
 	
 }
