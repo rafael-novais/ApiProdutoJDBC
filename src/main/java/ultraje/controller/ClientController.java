@@ -1,6 +1,7 @@
 package ultraje.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import ultraje.domain.dto.client.ClientToRegister;
 import ultraje.domain.dto.client.FullProfileResponse;
+import ultraje.domain.dto.client.ClientToList;
 import ultraje.mapper.ClientMapper;
 import ultraje.service.client.ClientService;
 
@@ -52,4 +54,16 @@ public class ClientController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	
+	@GetMapping
+	public ResponseEntity<?> getAllClients(UriComponentsBuilder uriBuilder) {
+		try {
+			List<ClientToList> clientsList = 
+					clientMapper.clientToList(clientService.getAllClients());
+			return ResponseEntity.ok().body(clientsList);
+		}catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
 }

@@ -1,8 +1,12 @@
 package ultraje.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import ultraje.domain.dto.client.ClientToRegister;
+import ultraje.domain.dto.client.ClientToList;
 import ultraje.domain.dto.client.FullProfileResponse;
 import ultraje.domain.entity.Client;
 
@@ -18,6 +22,7 @@ public class ClientMapper {
 		response.setSalary(client.getSalary());
 		response.setAccountNumber(client.getAccountNumber());
 		response.setCreditCard(client.getAccountNumber());
+		response.setProfiles(client.getProfiles());
 		return response;
 	}
 	
@@ -31,6 +36,14 @@ public class ClientMapper {
 		client.setAccountNumber(clientDto.getAccountNumber());
 		client.setCreditCard(clientDto.getCreditCard());
 		return client;
+	}
+	
+	public List<ClientToList> clientToList(List<Client> clientList) {
+		List<ClientToList> clientToList = new ArrayList<>();
+		clientList.forEach(client -> {
+			clientToList.add(new ClientToList(client));
+		});
+		return clientToList;
 	}
 	
 }

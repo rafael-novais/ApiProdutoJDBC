@@ -1,25 +1,16 @@
 package ultraje.dao.client;
 
+import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_ACCOUNT_NUMBER;
+import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_CREDIT_CARD;
+import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_EMAIL;
 import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_ID;
 import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_NAME;
 import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_NICKNAME;
-import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_EMAIL;
 import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_PASSWORD;
 import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_SALARY;
-import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_ACCOUNT_NUMBER;
-import static ultraje.dao.client.ClientDaoConstants.PARAM_CLIENT_CREDIT_CARD;
-
-
-import static ultraje.dao.client.ClientDaoConstants.COLUMN_CLIENT_ID;
-import static ultraje.dao.client.ClientDaoConstants.COLUMN_CLIENT_NAME;
-import static ultraje.dao.client.ClientDaoConstants.COLUMN_CLIENT_NICKNAME;
-import static ultraje.dao.client.ClientDaoConstants.COLUMN_CLIENT_EMAIL;
-import static ultraje.dao.client.ClientDaoConstants.COLUMN_CLIENT_PASSWORD;
-import static ultraje.dao.client.ClientDaoConstants.COLUMN_CLIENT_SALARY;
-import static ultraje.dao.client.ClientDaoConstants.COLUMN_CLIENT_ACCOUNT_NUMBER;
-import static ultraje.dao.client.ClientDaoConstants.COLUMN_CLIENT_CREDIT_CARD;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +25,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import ultraje.domain.entity.Client;
 import ultraje.exception.DAOException;
+import ultraje.service.profile.ProfileService;
 
 @Repository
 public class ClientDao {
@@ -80,15 +72,7 @@ public class ClientDao {
 			Client client= sql.queryForObject(
 				"SELECT * FROM client WHERE email = :client_email", 
 				parameters,
-				(resultSet, rowNum) -> new Client(
-						resultSet.getInt(COLUMN_CLIENT_ID), 
-						resultSet.getString(COLUMN_CLIENT_NAME),
-						resultSet.getString(COLUMN_CLIENT_NICKNAME),
-						resultSet.getString(COLUMN_CLIENT_EMAIL),
-						resultSet.getString(COLUMN_CLIENT_PASSWORD),
-						resultSet.getDouble(COLUMN_CLIENT_SALARY),
-						resultSet.getInt(COLUMN_CLIENT_ACCOUNT_NUMBER),
-						resultSet.getInt(COLUMN_CLIENT_CREDIT_CARD)));
+				(resultSet, rowNum) -> new Client(resultSet));
 			return client;
 		}catch (Exception e) {
 			throw new DAOException("Error to find client by email!");
@@ -102,18 +86,20 @@ public class ClientDao {
 			Client client= sql.queryForObject(
 				"SELECT * FROM client WHERE id = :client_id", 
 				parameters,
-				(resultSet, rowNum) -> new Client(
-						resultSet.getInt(COLUMN_CLIENT_ID), 
-						resultSet.getString(COLUMN_CLIENT_NAME),
-						resultSet.getString(COLUMN_CLIENT_NICKNAME),
-						resultSet.getString(COLUMN_CLIENT_EMAIL),
-						resultSet.getString(COLUMN_CLIENT_PASSWORD),
-						resultSet.getDouble(COLUMN_CLIENT_SALARY),
-						resultSet.getInt(COLUMN_CLIENT_ACCOUNT_NUMBER),
-						resultSet.getInt(COLUMN_CLIENT_CREDIT_CARD)));
+				(resultSet, rowNum) -> new Client(resultSet));
 			return client;
 		}catch (Exception e) {
 			throw new DAOException("Error to find client by id!");
+		}
+	}
+	
+	public List<Client> getAllClients() throws DAOException {
+		try{
+			List<Client> clients = sql.query("SELECT * FROM client",
+				(resultSet, rowNum) -> new Client(resultSet));
+			return clients;
+		}catch (Exception e) {
+			throw new DAOException("Error to find clients");
 		}
 	}
 	

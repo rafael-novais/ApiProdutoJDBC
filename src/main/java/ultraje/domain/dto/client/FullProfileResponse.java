@@ -1,6 +1,9 @@
 package ultraje.domain.dto.client;
 
+import java.util.List;
+
 import lombok.Data;
+import ultraje.domain.entity.Profile;
 
 @Data
 public class FullProfileResponse {
@@ -11,4 +14,5 @@ public class FullProfileResponse {
 	private Double salary;
 	private int accountNumber;
 	private int creditCard;
+	private List<Profile> profiles;
 }

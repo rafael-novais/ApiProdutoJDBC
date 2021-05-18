@@ -7,17 +7,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import ultraje.dao.client.ClientDao;
+import ultraje.service.client.ClientService;
 
 @Service
 public class AuthService implements UserDetailsService {
 
 	@Autowired
-	private ClientDao clientDao;
+	private ClientService clientService;
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		try {
-			return clientDao.getByEmail(email);			
+			return clientService.getByEmail(email);			
 		}catch(Exception e) {
 			throw new UsernameNotFoundException("Incorrect login!");
 		}

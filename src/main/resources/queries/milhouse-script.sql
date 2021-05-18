@@ -78,6 +78,23 @@ CREATE TABLE bank_account_transactions (
 	FOREIGN KEY (transaction_id) REFERENCES transactions(id),
 	FOREIGN KEY (account_number) REFERENCES bank_account(account_number))
 	
+CREATE TABLE profile (
+	id INT NOT NULL AUTO_INCREMENT,
+	name varchar(30) NOT NULL,
+	PRIMARY KEY(id)
+)
+	
+CREATE TABLE client_profile (
+	client_id INT NOT NULL,
+	profile_id INT NOT NULL,
+	FOREIGN KEY (client_id) REFERENCES client(id),
+	FOREIGN KEY (profile_id) REFERENCES profile(id)
+)
+
+INSERT INTO profile(name) values ('ROLE_ADMIN');
+INSERT INTO profile(name) values ('ROLE_CLIENT');
+
+INSERT INTO client_profile(client_id, profile_id) values (1, 1);
 
 
 
