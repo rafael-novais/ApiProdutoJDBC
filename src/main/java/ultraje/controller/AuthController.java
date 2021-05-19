@@ -3,6 +3,7 @@ package ultraje.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import ultraje.domain.dto.client.Token;
 
 @RequestMapping("/auth")
 @RestController()
+@Profile("prod")
 public class AuthController {
 
 	@Autowired
