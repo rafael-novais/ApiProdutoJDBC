@@ -19,7 +19,7 @@ import ultraje.domain.dto.client.Token;
 
 @RequestMapping("/auth")
 @RestController()
-@Profile("prod")
+@Profile(value={"prod", "test"})
 public class AuthController {
 
 	@Autowired

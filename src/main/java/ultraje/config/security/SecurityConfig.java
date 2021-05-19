@@ -20,7 +20,7 @@ import ultraje.service.client.ClientService;
 
 @EnableWebSecurity
 @Configuration
-@Profile("prod")
+@Profile(value={"prod", "test"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
