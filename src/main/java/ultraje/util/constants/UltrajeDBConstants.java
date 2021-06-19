@@ -3,7 +3,7 @@ package ultraje.util.constants;
 public interface UltrajeDBConstants {
 	
 	public final String connection_string = 
-			"jdbc:mysql://localhost/milhouse";
-	public final String bd_user = "root";
-	public final String bd_password = "1234";
+			"jdbc:mysql://milhouse-server2.cf3ra3amnbdz.us-east-2.rds.amazonaws.com:3306/milhouse";
+	public final String bd_user = "admin";
+	public final String bd_password = "Milhouse*1234";
 }

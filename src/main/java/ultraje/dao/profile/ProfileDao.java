@@ -44,7 +44,7 @@ public class ProfileDao {
 				(resultSet, rowNum) -> new Profile(resultSet));
 			return clients;
 		}catch (Exception e) {
-			throw new DAOException("Error to find profiles by clientId!");
+			throw new DAOException("Error to find any profiles!");
 		}
 	}
 	
