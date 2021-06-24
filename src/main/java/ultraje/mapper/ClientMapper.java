@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import ultraje.domain.dto.client.ClientToRegister;
+import ultraje.domain.dto.client.ClientLogin;
+import ultraje.domain.dto.client.ClientLoginVO;
 import ultraje.domain.dto.client.ClientToList;
 import ultraje.domain.dto.client.FullProfileResponse;
 import ultraje.domain.entity.Client;
@@ -44,6 +46,13 @@ public class ClientMapper {
 			clientToList.add(new ClientToList(client));
 		});
 		return clientToList;
+	}
+	
+	public ClientLogin fromClientLoginVo(ClientLoginVO loginVo) {
+		ClientLogin login = new ClientLogin();
+		login.setEmail(loginVo.getEmail());
+		login.setPassword(loginVo.getPassword());
+		return login;
 	}
 	
 }

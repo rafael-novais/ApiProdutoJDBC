@@ -18,6 +18,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -42,7 +43,8 @@ public class ClientDao {
 		.addValue(PARAM_CLIENT_NAME, client.getName())
 	    .addValue(PARAM_CLIENT_NICKNAME, client.getNickname())
 		.addValue(PARAM_CLIENT_EMAIL, client.getEmail())
-		.addValue(PARAM_CLIENT_PASSWORD, client.getPassword())
+		.addValue(PARAM_CLIENT_PASSWORD,  
+				new BCryptPasswordEncoder().encode(client.getPassword()))
 		.addValue(PARAM_CLIENT_SALARY, client.getSalary())
 		.addValue(PARAM_CLIENT_ACCOUNT_NUMBER, client.getAccountNumber() > 0 ? client.getAccountNumber() : null)
 		.addValue(PARAM_CLIENT_CREDIT_CARD, client.getCreditCard() > 0 ? client.getCreditCard() : null);

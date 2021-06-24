@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ultraje.config.security.TokenService;
 import ultraje.domain.dto.client.ClientLogin;
+import ultraje.domain.dto.client.ClientLoginVO;
 import ultraje.domain.dto.client.Token;
+import ultraje.mapper.ClientMapper;
 
 @RequestMapping("/auth")
 @RestController()
@@ -28,8 +30,13 @@ public class AuthController {
 	@Autowired
 	private AuthenticationManager authManager;
 	
+	@Autowired
+	private ClientMapper clientMapper;
+	
 	@PostMapping
-	public ResponseEntity<?> authenticate(@RequestBody @Valid ClientLogin login){
+	public ResponseEntity<?> authenticate(@RequestBody @Valid ClientLoginVO loginVo){
+		
+		ClientLogin login = clientMapper.fromClientLoginVo(loginVo);
 		
 		try {
 			Authentication auth =
