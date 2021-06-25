@@ -48,11 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 		.authorizeRequests()
 		.antMatchers(HttpMethod.POST, "/clients").permitAll()
+		.antMatchers(HttpMethod.POST, "/clients/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers(HttpMethod.GET, "/clients").hasRole("ADMIN")
 		.antMatchers(HttpMethod.GET, "/profiles").permitAll()
 		.anyRequest().authenticated()
+		.and().cors()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and().addFilterBefore(new TokenAuthFilter(tokenService, clientService), UsernamePasswordAuthenticationFilter.class);
