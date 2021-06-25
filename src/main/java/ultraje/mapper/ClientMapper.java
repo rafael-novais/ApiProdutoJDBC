@@ -31,12 +31,8 @@ public class ClientMapper {
 	public Client registerDtoToClient(ClientToRegister clientDto) {
 		Client client = new Client();
 		client.setName(clientDto.getName());
-		client.setNickname(clientDto.getNickname());
 		client.setEmail(clientDto.getEmail());
 		client.setPassword(clientDto.getPassword());
-		client.setSalary(clientDto.getSalary());
-		client.setAccountNumber(clientDto.getAccountNumber());
-		client.setCreditCard(clientDto.getCreditCard());
 		return client;
 	}
 	

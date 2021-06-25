@@ -41,18 +41,13 @@ public class ClientDao {
 		TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 		MapSqlParameterSource parameters = new MapSqlParameterSource()
 		.addValue(PARAM_CLIENT_NAME, client.getName())
-	    .addValue(PARAM_CLIENT_NICKNAME, client.getNickname())
 		.addValue(PARAM_CLIENT_EMAIL, client.getEmail())
 		.addValue(PARAM_CLIENT_PASSWORD,  
-				new BCryptPasswordEncoder().encode(client.getPassword()))
-		.addValue(PARAM_CLIENT_SALARY, client.getSalary())
-		.addValue(PARAM_CLIENT_ACCOUNT_NUMBER, client.getAccountNumber() > 0 ? client.getAccountNumber() : null)
-		.addValue(PARAM_CLIENT_CREDIT_CARD, client.getCreditCard() > 0 ? client.getCreditCard() : null);
+				new BCryptPasswordEncoder().encode(client.getPassword()));
 		
 		String query = "INSERT INTO client "
-				+ "(name, nickname, email, psw, salary, account_number, credit_card_number) "
-				+ "values (:client_name, :client_nickname, :client_email, :client_password, "
-				+ ":client_salary, :client_account_number, :client_credit_card )";
+				+ "(name, email, psw) "
+				+ "values (:client_name, :client_email, :client_password)";
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 			
